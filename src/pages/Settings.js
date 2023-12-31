@@ -1,10 +1,21 @@
 import SelectField from "../components/SelectField";
 
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
 import TextFieldComp from "../components/TextFieldComp";
+import useAxios from "../hooks/useAxios";
 
 const Settings = () => {
+  const { response, error, loading } = useAxios({ url: "/api_category.php" });
+
+  if (loading) {
+    return (
+      <Box mt={20}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
