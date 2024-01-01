@@ -1,6 +1,11 @@
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Button } from "@mui/material";
+import { Box } from "@mui/system";
+import useAxios from "../hooks/useAxios";
 
 const Questions = () => {
+  let apiUrl = `/api.php?amount=10`;
+  const { response, loading } = useAxios({ url: apiUrl });
+  console.log(response);
   return (
     <Box>
       <Typography variant="h4">Questions 1</Typography>
