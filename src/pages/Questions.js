@@ -16,9 +16,22 @@ const Questions = () => {
     question_type,
     amount_of_question
   );
-  let apiUrl = `/api.php?amount=10`;
+  let apiUrl = `/api.php?amount=${amount_of_question}`;
+
+  if (question_category) {
+    apiUrl = apiUrl.concat(`&category=${question_category}`);
+  }
+  if (question_difficulty) {
+    apiUrl = apiUrl.concat(`&difficulty=${question_category}`);
+  }
+  if (question_type) {
+    apiUrl = apiUrl.concat(`&type=${question_category}`);
+  }
+
   const { response, loading } = useAxios({ url: apiUrl });
+
   console.log(response);
+
   return (
     <Box>
       <Typography variant="h4">Questions 1</Typography>
