@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Typography, Button, CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import useAxios from "../hooks/useAxios";
+import { handleScoreChange } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
+import { decode } from "html-entities";
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
@@ -19,6 +21,8 @@ const Questions = () => {
   } = useSelector((state) => state);
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   let apiUrl = `/api.php?amount=${amount_of_question}`;
   if (question_category) {
@@ -42,7 +46,7 @@ const Questions = () => {
       answers.splice(
         getRandomInt(question.incorrect_answers.length),
         0,
-        question.current_answer
+        question.corrent_answer
       );
       setOptions(answers);
     }
@@ -56,7 +60,13 @@ const Questions = () => {
     );
   }
 
-  const handleClickAnswer = () => {
+  const handleClickAnswer = (e) => {
+    const question = response.results[questionIndex];
+
+    if (e.target.textContent === question.correct_answer) {
+      dispatch(handleScoreChange(score + 1));
+    }
+
     if (questionIndex + 1 < response.results.length) {
       setQuestionIndex(questionIndex + 1);
     } else {
@@ -67,11 +77,13 @@ const Questions = () => {
   return (
     <Box>
       <Typography variant="h4">Questions {questionIndex + 1}</Typography>
-      <Typography mt={5}>{response.results[questionIndex].question}</Typography>
+      <Typography mt={5}>
+        {decode(response.results[questionIndex].question)}
+      </Typography>
       {options.map((data, id) => (
         <Box mt={2} key={id}>
           <Button onClick={handleClickAnswer} variant="contained">
-            {data}
+            {decode(data)}
           </Button>
         </Box>
       ))}
