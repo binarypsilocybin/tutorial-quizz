@@ -1,10 +1,10 @@
 import {
-  CHANGE_DIFFICULTY,
-  CHANGE_CATEGORY,
-  CHANGE_TYPE,
   CHANGE_AMOUNT,
+  CHANGE_CATEGORY,
+  CHANGE_DIFFICULTY,
   CHANGE_SCORE,
-} from "./actionsType";
+  CHANGE_TYPE,
+} from "./actionsTypes";
 
 const initialState = {
   question_category: "",

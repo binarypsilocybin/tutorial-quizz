@@ -21,7 +21,6 @@ const Questions = () => {
   } = useSelector((state) => state);
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   let apiUrl = `/api.php?amount=${amount_of_question}`;
@@ -46,11 +45,11 @@ const Questions = () => {
       answers.splice(
         getRandomInt(question.incorrect_answers.length),
         0,
-        question.corrent_answer
+        question.correct_answer
       );
       setOptions(answers);
     }
-  }, [response]);
+  }, [response, questionIndex]);
 
   if (loading) {
     return (
@@ -87,7 +86,9 @@ const Questions = () => {
           </Button>
         </Box>
       ))}
-      <Box mt={5}>Score: 2/ </Box>
+      <Box mt={5}>
+        Score: {score} / {response.results.length}
+      </Box>
     </Box>
   );
 };
